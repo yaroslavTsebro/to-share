@@ -1,0 +1,40 @@
+@import "./variables.scss";
+
+.quill {
+  background-color: $dark-main-color;
+  color: $dark-main-color;
+}
+
+.ql-stroke{
+  stroke: $dark-font-color !important;
+}
+.ql-snow{
+  stroke: $dark-font-color !important;
+}
+.ql-toolbar.ql-snow {
+  border: 1px solid $dark-font-color;
+}
+
+.ql-editor {
+  color: $dark-font-color;
+}
+.ql-container{
+  border: none !important;
+  border-bottom: 1px solid $dark-font-color !important;
+}
+.ql-snow.ql-toolbar button,
+.ql-snow .ql-toolbar button {
+  height: 31px;
+}
+
+.ql-picker-label{
+  color: $dark-font-color !important;
+}
+
+.ql-editor{
+  font-size: 18px;
+}
+
+a{
+  color: $purple1-color !important;
+}

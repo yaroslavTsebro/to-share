@@ -1,0 +1,10 @@
+@import "./variables.scss";
+@import "./nulling.scss";
+
+body {
+  background-color: $dark-main-color;
+  font-family: $ff-main;
+  font-weight: $fw-main;
+  font-size: $fz-main;
+  color: $dark-font-color;
+}
