@@ -8,6 +8,8 @@ const EditPost = () => {
       <form action="">
         <label className={styles.title} htmlFor="title">Title</label>
         <input className={styles.titleInput} type="text" name="title" />
+        <label className={styles.titleImage} htmlFor="image">Title image</label>
+        <input className={styles.titleImageInput} type="file" name="image" />
         <Editor />
       </form>
     </section>
