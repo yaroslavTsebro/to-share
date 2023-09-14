@@ -1,0 +1,29 @@
+version: '3.9'
+services:
+  articles:
+    container_name: articles
+    build:
+      context: .
+      dockerfile: ./apps/articles/Dockerfile
+      target: development
+    command: pnpm run start:dev articles
+    env_file:
+      - ./apps/articles/.env
+    ports: 
+      -'3000:3000'
+    volumes: 
+      -.:/usr/src/app
+  static:
+    container_name: static
+    build:
+      context: .
+      dockerfile: ./apps/static/Dockerfile
+      target: development
+    command: pnpm run start:dev static
+    env_file:
+      - ./apps/static/.env
+    ports: 
+      -'3001:3001'
+    volumes: 
+      -.:/usr/src/app
+      -./apps/static/static:/usr/src/app/apps/static/static
