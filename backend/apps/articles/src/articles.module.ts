@@ -8,10 +8,10 @@ import { ARTICLE_SERVICE } from './service/articles-service.interface';
 @Module({
   imports: [
     ConfigModule.forRoot({
-      envFilePath: './apps/articles/.env',
+      // envFilePath: './apps/articles/.env',
       isGlobal: true,
       validationSchema: Joi.object({
-        PORT: Joi.number().default(3000),
+        PORT: Joi.number().required(),
       }),
     }),
   ],
