@@ -1,5 +1,6 @@
 import { BaseEntity } from '@app/common';
-import { Column, Entity } from 'typeorm';
+import { Column, Entity, JoinColumn } from 'typeorm';
+import Token from '../../token/entity/token.entity';
 
 export enum UserRole {
   ADMIN,
@@ -7,14 +8,14 @@ export enum UserRole {
 }
 
 @Entity()
-class User extends BaseEntity {
-  @Column({ length: 20 })
+class User extends BaseEntity<User> {
+  @Column({ length: 20, unique: true })
   username: string;
 
-  @Column({ length: 60 })
+  @Column({ length: 60, unique: true })
   email: string;
 
-  @Column({ length: 200 })
+  @Column({ length: 200, select: false })
   password: string;
 
   @Column({
@@ -23,6 +24,9 @@ class User extends BaseEntity {
     default: UserRole.USER,
   })
   role: UserRole;
+
+  @JoinColumn()
+  token: Token;
 }
 
 export default User;
