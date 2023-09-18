@@ -9,7 +9,7 @@ import { TagsModule } from './tags/tags.module';
 @Module({
   imports: [
     ConfigModule.forRoot({
-      // envFilePath: './apps/articles/.env',
+      envFilePath: './apps/articles/.env',
       isGlobal: true,
       validationSchema: Joi.object({
         PORT: Joi.number().required(),

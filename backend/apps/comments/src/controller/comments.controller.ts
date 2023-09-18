@@ -1,12 +1,10 @@
-import { Controller, Get } from '@nestjs/common';
-import { CommentsService } from './comments.service';
+import { Controller } from '@nestjs/common';
 
 @Controller()
 export class CommentsController {
-  constructor(private readonly commentsService: CommentsService) {}
-
-  @Get()
-  getHello(): string {
-    return this.commentsService.getHello();
-  }
+  // constructor(private readonly commentsService: CommentsService) {}
+  // @Get()
+  // getHello(): string {
+  //   return this.commentsService.getHello();
+  // }
 }
