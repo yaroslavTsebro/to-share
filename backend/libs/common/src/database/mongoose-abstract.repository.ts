@@ -26,13 +26,13 @@ export abstract class MongooseAbstractRepository<
       throw new NotFoundException('Document not found.');
     }
 
-    return document;
+    return document as TDocument;
   }
 
   async findOneAndUpdate(
     filterQuery: FilterQuery<TDocument>,
     update: UpdateQuery<TDocument>,
-  ) {
+  ): Promise<TDocument> {
     const document = await this.model.findOneAndUpdate(filterQuery, update, {
       lean: true,
       new: true,
@@ -43,7 +43,7 @@ export abstract class MongooseAbstractRepository<
       throw new NotFoundException('Document not found.');
     }
 
-    return document;
+    return document as TDocument;
   }
 
   async find(filterQuery: FilterQuery<TDocument>) {

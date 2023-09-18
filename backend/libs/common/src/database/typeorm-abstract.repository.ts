@@ -21,7 +21,7 @@ export abstract class TypeOrmAbstractRepository<T extends BaseEntity<T>> {
   }
 
   async findOne(
-    where: FindOptionsWhere<T>,
+    where: FindOptionsWhere<T>[] | FindOptionsWhere<T>,
     relations?: FindOptionsRelations<T>,
   ): Promise<T> {
     const entity = await this.itemsRepository.findOne({ where, relations });
