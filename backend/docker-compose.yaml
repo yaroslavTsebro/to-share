@@ -1,4 +1,9 @@
 version: '3.9'
+
+networks:
+  my_network:
+    driver: bridge
+
 services:
   articles:
     container_name: articles
@@ -27,3 +32,64 @@ services:
     volumes: 
       -.:/usr/src/app
       -./apps/static/static:/usr/src/app/apps/static/static
+  auth:
+    container_name: auth
+    build:
+      context: .
+      dockerfile: ./apps/auth/Dockerfile
+      target: development
+    command: pnpm run start:dev auth
+    env_file:
+      - ./apps/auth/.env
+    ports: 
+      -'3003:3003'
+    volumes: 
+      -.:/usr/src/app
+  comments:
+    container_name: comments
+    build:
+      context: .
+      dockerfile: ./apps/comments/Dockerfile
+      target: development
+    command: pnpm run start:dev comments
+    env_file:
+      - ./apps/comments/.env
+    ports: 
+      -'3003:3003'
+    volumes: 
+      -.:/usr/src/app
+  mongo:
+    image: mongo:latest
+    container_name: mongo
+    restart: always
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: user
+      MONGO_INITDB_ROOT_PASSWORD: password
+      MONGO_INITDB_DATABASE: mydb1
+    ports:
+      - "27017:27017"
+    networks:
+      - my_network
+    volumes:
+      - ./data/db:/data/db
+      - ./data/logs/db:/var/log/mongodb
+
+  mongo-express:
+    image: mongo-express:latest
+    container_name: mongo-express
+    environment:
+      ME_CONFIG_OPTIONS_EDITORTHEME: default
+      ME_CONFIG_MONGODB_SERVER: mongodb
+      ME_CONFIG_MONGODB_PORT: 27017
+      ME_CONFIG_MONGODB_ENABLE_ADMIN: true
+      ME_CONFIG_MONGODB_AUTH_DATABASE: mydb1
+      ME_CONFIG_MONGODB_ADMINUSERNAME: user
+      ME_CONFIG_MONGODB_ADMINPASSWORD: password
+    ports:
+      - "8081:8081"
+    restart: always
+    networks:
+      - my_network
+    depends_on:
+      - mongo
+
