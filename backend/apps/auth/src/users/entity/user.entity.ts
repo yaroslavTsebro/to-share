@@ -3,8 +3,8 @@ import { Column, Entity, JoinColumn } from 'typeorm';
 import Token from '../../token/entity/token.entity';
 
 export enum UserRole {
-  ADMIN,
-  USER,
+  ADMIN = 'admin',
+  USER = 'user',
 }
 
 @Entity()
@@ -21,7 +21,7 @@ class User extends BaseEntity<User> {
   @Column({
     type: 'enum',
     enum: UserRole,
-    default: UserRole.USER,
+    default: UserRole.USER.toString(),
   })
   role: UserRole;
 
