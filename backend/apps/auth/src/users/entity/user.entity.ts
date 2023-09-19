@@ -15,7 +15,7 @@ class User extends BaseEntity<User> {
   @Column({ length: 60, unique: true })
   email: string;
 
-  @Column({ length: 200, select: false })
+  @Column({ length: 200 })
   password: string;
 
   @Column({
