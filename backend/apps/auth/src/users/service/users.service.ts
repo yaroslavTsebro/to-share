@@ -15,8 +15,13 @@ export class UsersService implements IUsersService {
   constructor(
     @Inject(UsersRepository) private readonly usersRepository: UsersRepository,
   ) {}
-  async verifyUser(email: string, password: string) {
-    const user = await this.usersRepository.findOne({ email });
+
+  async getById(id: number): Promise<User> {
+    return this.usersRepository.findOneOrThrow({ id });
+  }
+
+  async verifyUser(email: string, password: string): Promise<User> {
+    const user = await this.usersRepository.findOneOrThrow({ email });
     const passwordIsValid = await bcrypt.compare(password, user.password);
 
     if (!passwordIsValid) throw new UnauthorizedException('Wrong password');
@@ -24,7 +29,7 @@ export class UsersService implements IUsersService {
     return user;
   }
 
-  async create(createUserDto: CreateUserDto) {
+  async create(createUserDto: CreateUserDto): Promise<User> {
     await this.validateCreateUserDto(createUserDto);
     const user = new User({
       ...createUserDto,
@@ -36,7 +41,7 @@ export class UsersService implements IUsersService {
 
   private async validateCreateUserDto(createUserDto: CreateUserDto) {
     try {
-      await this.usersRepository.findOne([
+      await this.usersRepository.findOneOrThrow([
         { username: createUserDto.username },
         { email: createUserDto.email },
       ]);
