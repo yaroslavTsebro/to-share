@@ -11,7 +11,7 @@ export class LocalStrategy extends PassportStrategy(Strategy) {
   constructor(
     @Inject(USER_SERVICE) private readonly usersService: IUsersService,
   ) {
-    super({ usernameField: 'email' });
+    super({ usernameField: 'email', passwordField: 'password' });
   }
 
   async validate(email: string, password: string) {

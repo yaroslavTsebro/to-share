@@ -20,7 +20,7 @@ export abstract class TypeOrmAbstractRepository<T extends BaseEntity<T>> {
     return this.entityManager.save(entity);
   }
 
-  async findOne(
+  async findOneOrThrow(
     where: FindOptionsWhere<T>[] | FindOptionsWhere<T>,
     relations?: FindOptionsRelations<T>,
   ): Promise<T> {
@@ -32,6 +32,13 @@ export abstract class TypeOrmAbstractRepository<T extends BaseEntity<T>> {
     }
 
     return entity;
+  }
+
+  async findOne(
+    where: FindOptionsWhere<T>[] | FindOptionsWhere<T>,
+    relations?: FindOptionsRelations<T>,
+  ): Promise<T | null> {
+    return await this.itemsRepository.findOne({ where, relations });
   }
 
   async findOneAndUpdate(
@@ -48,7 +55,7 @@ export abstract class TypeOrmAbstractRepository<T extends BaseEntity<T>> {
       throw new NotFoundException('Entity not found.');
     }
 
-    return this.findOne(where);
+    return this.findOneOrThrow(where);
   }
 
   async find(where: FindOptionsWhere<T>) {
@@ -56,6 +63,10 @@ export abstract class TypeOrmAbstractRepository<T extends BaseEntity<T>> {
   }
 
   async findOneAndDelete(where: FindOptionsWhere<T>) {
-    await this.itemsRepository.delete(where);
+    const amount = await this.itemsRepository.delete(where);
+    if (!amount.affected) {
+      this.logger.warn('Entity was not deleted with where', where);
+      throw new NotFoundException('Entity was not deleted.');
+    }
   }
 }

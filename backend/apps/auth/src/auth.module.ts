@@ -12,6 +12,8 @@ import Token from './token/entity/token.entity';
 import { LoggerModule } from '@app/common';
 import { JwtModule } from '@nestjs/jwt';
 import { LocalStrategy } from './strategy/local.strategy';
+import { AccessTokenStrategy } from './strategy/access-token.strategy';
+import { RefreshTokenStrategy } from './strategy/refresh-token.strategy';
 
 @Module({
   imports: [
@@ -27,8 +29,10 @@ import { LocalStrategy } from './strategy/local.strategy';
         DB_NAME: Joi.string().required(),
         DB_PASSWORD: Joi.string().required(),
         DB_USERNAME: Joi.string().required(),
-        JWT_SECRET: Joi.string().required(),
-        JWT_EXPIRATION: Joi.string().required(),
+        JWT_ACCESS_SECRET: Joi.string().required(),
+        JWT_REFRESH_SECRET: Joi.string().required(),
+        JWT_ACCESS_EXPIRATION: Joi.string().required(),
+        JWT_REFRESH_EXPIRATION: Joi.string().required(),
         HTTP_PORT: Joi.number().required(),
         TCP_PORT: Joi.number().required(),
         PORT: Joi.number().required(),
@@ -53,15 +57,20 @@ import { LocalStrategy } from './strategy/local.strategy';
       inject: [ConfigService],
       useFactory: async (config: ConfigService) => {
         return {
-          secret: config.get<string>('JWT_SECRET'),
-          signOptions: {
-            expiresIn: `${config.get('JWT_EXPIRATION')}s`,
-          },
+          secret: config.get<string>('JWT_ACCESS_SECRET'),
+          // signOptions: {
+          //   expiresIn: `${config.get('JWT_ACCESS_EXPIRATION')}s`,
+          // },
         };
       },
     }),
   ],
   controllers: [AuthController],
-  providers: [AuthService, LocalStrategy],
+  providers: [
+    AuthService,
+    LocalStrategy,
+    AccessTokenStrategy,
+    // RefreshTokenStrategy,
+  ],
 })
 export class AuthModule {}

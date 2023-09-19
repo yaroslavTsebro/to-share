@@ -1,3 +1,3 @@
 export interface RefreshTokenPayload {
-  id: string;
+  id: number;
 }
