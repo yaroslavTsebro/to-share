@@ -16,6 +16,14 @@ export class UsersService implements IUsersService {
     @Inject(UsersRepository) private readonly usersRepository: UsersRepository,
   ) {}
 
+  async delete(id: number): Promise<void> {
+    return await this.usersRepository.findOneAndDelete({ id });
+  }
+
+  async changeUsername(id: number, username: string): Promise<User> {
+    return await this.usersRepository.findOneAndUpdate({ id }, { username });
+  }
+
   async getById(id: number): Promise<User> {
     return this.usersRepository.findOneOrThrow({ id });
   }

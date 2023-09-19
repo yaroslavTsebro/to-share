@@ -13,6 +13,7 @@ import {
   ITokenService,
   TOKEN_SERVICE,
 } from '../token/service/token-service.interface';
+import { ChangeUsernameDto } from '../users/entity/dto/change-username.dto';
 
 export type Tokens = { accessToken: string; refreshToken: string };
 
@@ -25,8 +26,12 @@ export class AuthService {
     private readonly jwtService: JwtService,
   ) {}
 
-  getHello(): string {
-    return 'Hello World!';
+  async changeUsername(user: User, dto: ChangeUsernameDto) {
+    return await this.usersService.changeUsername(user.id, dto.username);
+  }
+
+  async delete(user: User) {
+    return await this.usersService.delete(user.id);
   }
 
   async logout(user: User) {
@@ -37,7 +42,7 @@ export class AuthService {
     return this.usersService.getById(userId);
   }
 
-  async login(user: User): Promise<Tokens> {
+  async getTokens(user: User): Promise<Tokens> {
     try {
       const accessTokenPayload: AccessTokenPayload = {
         id: user.id,
@@ -82,10 +87,18 @@ export class AuthService {
     try {
       const user = await this.usersService.create(dto);
       if (!user) throw new BadRequestException('An Error occured');
-      const tokens = await this.login(user);
+      const tokens = await this.getTokens(user);
       return tokens;
     } catch (error) {
       throw error;
     }
+  }
+
+  async getUserIfRefreshTokenMatches(
+    refreshToken: string,
+    id: number,
+  ): Promise<User> {
+    const token = this.tokenService.getByUserIdAndToken(id, refreshToken);
+    return (await token).user;
   }
 }

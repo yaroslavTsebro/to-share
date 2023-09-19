@@ -14,6 +14,17 @@ export class TokenService implements ITokenService {
   constructor(
     @Inject(TokenRepository) private readonly tokenRepository: TokenRepository,
   ) {}
+
+  async getByUserIdAndToken(userId: number, token: string): Promise<Token> {
+    return await this.tokenRepository.findOneOrThrow(
+      {
+        user: { id: userId },
+        token: token,
+      },
+      { user: true },
+    );
+  }
+
   async delete(id: number): Promise<void> {
     await this.tokenRepository.findOneAndDelete({ id });
   }
