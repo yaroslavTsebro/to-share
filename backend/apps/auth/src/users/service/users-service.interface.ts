@@ -7,4 +7,6 @@ export interface IUsersService {
   create(dto: CreateUserDto): Promise<User>;
   verifyUser(email: string, password: string): Promise<User>;
   getById(id: number): Promise<User>;
+  changeUsername(id: number, username: string): Promise<User>;
+  delete(id: number): Promise<void>;
 }

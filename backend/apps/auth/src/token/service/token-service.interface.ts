@@ -9,4 +9,5 @@ export interface ITokenService {
   update(dto: TokenDto, userId: number): Promise<Token>;
   delete(userId: number): Promise<void>;
   createOrUpdate(dto: TokenDto, user: User): Promise<Token>;
+  getByUserIdAndToken(userId: number, token: string): Promise<Token>;
 }

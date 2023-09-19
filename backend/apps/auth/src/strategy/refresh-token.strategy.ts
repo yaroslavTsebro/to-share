@@ -5,6 +5,7 @@ import { Strategy } from 'passport-local';
 import { Request } from 'express';
 import { RefreshTokenPayload } from '../interface/refresh-token-payload.interface';
 import { AuthService } from '../service/auth.service';
+import User from '../users/entity/user.entity';
 
 export class RefreshTokenStrategy extends PassportStrategy(
   Strategy,
@@ -25,11 +26,14 @@ export class RefreshTokenStrategy extends PassportStrategy(
     });
   }
 
-  async validate(request: Request, payload: RefreshTokenPayload) {
+  async validate(
+    request: Request,
+    payload: RefreshTokenPayload,
+  ): Promise<User> {
     const refreshToken = request.cookies.refreshToken;
-    // return this.authService.getUserIfRefreshTokenMatches(
-    //   refreshToken,
-    //   payload.id,
-    // );
+    return this.authService.getUserIfRefreshTokenMatches(
+      refreshToken,
+      payload.id,
+    );
   }
 }

@@ -1,4 +1,12 @@
-import { Body, Controller, Get, Post, Res, UseGuards } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Post,
+  Res,
+  UseGuards,
+} from '@nestjs/common';
 import { AuthService, Tokens } from '../service/auth.service';
 import { LocalAuthGuard } from '../guard/local-auth.guard';
 import { CurrentUser } from '@app/common';
@@ -7,6 +15,9 @@ import { Response } from 'express';
 import { ConfigService } from '@nestjs/config';
 import { CreateUserDto } from '../users/entity/dto/create-user.dto';
 import { AccessTokenGuard } from '../guard/access-token.guard';
+import { RefreshTokenGuard } from '../guard/refresh-token.guard';
+import { ChangeUsernameDto } from '../users/entity/dto/change-username.dto';
+import { MessagePattern, Payload } from '@nestjs/microservices';
 
 @Controller()
 export class AuthController {
@@ -15,18 +26,13 @@ export class AuthController {
     private readonly authService: AuthService,
   ) {}
 
-  @Get()
-  getHello(): string {
-    return this.authService.getHello();
-  }
-
   @Post('login')
   @UseGuards(LocalAuthGuard)
   async login(
     @CurrentUser() user: User,
     @Res({ passthrough: true }) response: Response,
   ) {
-    const tokens = await this.authService.login(user);
+    const tokens = await this.authService.getTokens(user);
 
     this.addTokensToCookies(response, tokens);
     response.send(tokens);
@@ -58,6 +64,39 @@ export class AuthController {
   @UseGuards(AccessTokenGuard)
   async profile(@CurrentUser() user: User) {
     return user;
+  }
+
+  @Post('refresh')
+  @UseGuards(RefreshTokenGuard)
+  async refresh(
+    @Res({ passthrough: true }) response: Response,
+    @CurrentUser() user: User,
+  ) {
+    const tokens = await this.authService.getTokens(user);
+
+    this.addTokensToCookies(response, tokens);
+    response.send(tokens);
+  }
+
+  @Post('change-username')
+  @UseGuards(AccessTokenGuard)
+  async changeUsername(
+    @CurrentUser() user: User,
+    @Body() dto: ChangeUsernameDto,
+  ) {
+    return await this.authService.changeUsername(user, dto);
+  }
+
+  @Delete()
+  @UseGuards(AccessTokenGuard)
+  async deleteAccount(@CurrentUser() user: User) {
+    return await this.authService.delete(user);
+  }
+
+  @UseGuards(AccessTokenGuard)
+  @MessagePattern('authenticate')
+  async authenticate(@Payload() data: any) {
+    return data.user;
   }
 
   private addTokenToCookies(
