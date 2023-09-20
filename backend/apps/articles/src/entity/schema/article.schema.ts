@@ -6,16 +6,16 @@ import mongoose from 'mongoose';
 @Schema()
 export class ArticleDocument extends MongooseAbstractDocument {
   @Prop()
-  creatorId: string;
+  creatorId: number;
 
   @Prop({ required: true })
   title: string;
 
   @Prop()
-  titleImageIds: string[];
+  titleImageIds: number[];
 
   @Prop()
-  usersWhichLikedIds: string[];
+  usersWhichLikedIds: number[];
 
   @Prop({ required: true })
   content: string;

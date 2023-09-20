@@ -19,7 +19,8 @@ async function bootstrap() {
   app.useLogger(app.get(Logger));
   app.use(cookieParser());
   app.useGlobalPipes(new ValidationPipe({ whitelist: true }));
-  console.log(configService.get('PORT'));
+
+  await app.startAllMicroservices();
   await app.listen(configService.get('PORT'));
 }
 bootstrap();
