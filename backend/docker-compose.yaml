@@ -5,6 +5,17 @@ networks:
     driver: bridge
 
 services:
+  gateway:
+    container_name: gateway
+    build:
+      context: .
+      dockerfile: ./apps/gateway/Dockerfile
+      target: development
+    command: pnpm run start:dev gateway
+    env_file:
+      - ./apps/gateway/.env
+    ports: -'3004:3004'
+    volumes: -.:/usr/src/app
   articles:
     container_name: articles
     build:
@@ -14,10 +25,8 @@ services:
     command: pnpm run start:dev articles
     env_file:
       - ./apps/articles/.env
-    ports: 
-      -'3000:3000'
-    volumes: 
-      -.:/usr/src/app
+    ports: -'3000:3000'
+    volumes: -.:/usr/src/app
   static:
     container_name: static
     build:
@@ -27,10 +36,8 @@ services:
     command: pnpm run start:dev static
     env_file:
       - ./apps/static/.env
-    ports: 
-      -'3001:3001'
-    volumes: 
-      -.:/usr/src/app
+    ports: -'3001:3001'
+    volumes: -.:/usr/src/app
       -./apps/static/static:/usr/src/app/apps/static/static
   auth:
     container_name: auth
@@ -41,10 +48,8 @@ services:
     command: pnpm run start:dev auth
     env_file:
       - ./apps/auth/.env
-    ports: 
-      -'3003:3003'
-    volumes: 
-      -.:/usr/src/app
+    ports: -'3003:3003'
+    volumes: -.:/usr/src/app
   comments:
     container_name: comments
     build:
@@ -54,10 +59,9 @@ services:
     command: pnpm run start:dev comments
     env_file:
       - ./apps/comments/.env
-    ports: 
-      -'3003:3003'
-    volumes: 
-      -.:/usr/src/app
+    ports: -'3003:3003'
+    volumes: -.:/usr/src/app
+
   mongo:
     image: mongo:latest
     container_name: mongo
@@ -67,13 +71,12 @@ services:
       MONGO_INITDB_ROOT_PASSWORD: password
       MONGO_INITDB_DATABASE: mydb1
     ports:
-      - "27017:27017"
+      - '27017:27017'
     networks:
       - my_network
     volumes:
-      - ./data/db:/data/db
-      - ./data/logs/db:/var/log/mongodb
-
+      - ./data/mongo/db:/data/db
+      - ./data/mongo/logs/db:/var/log/mongodb
   mongo-express:
     image: mongo-express:latest
     container_name: mongo-express
@@ -86,10 +89,27 @@ services:
       ME_CONFIG_MONGODB_ADMINUSERNAME: user
       ME_CONFIG_MONGODB_ADMINPASSWORD: password
     ports:
-      - "8081:8081"
+      - '8081:8081'
     restart: always
     networks:
       - my_network
     depends_on:
       - mongo
 
+  postgres:
+    image: postgres:latest
+    container_name: postgres
+    restart: always
+    ports: -"5432:5432"
+    environment:
+      POSTGRES_DB: user
+      POSTGRES_USER: password
+      POSTGRES_PASSWORD: mydb1
+      PGDATA: '/var/lib/postgresql/data/pgdata'
+    volumes:
+      - ./data/pg/db:/var/lib/postgresql/data
+
+  kafka:
+    image: 'bitnami/kafka:latest'
+    container_name: kafka
+    ports: -"8000:8000"
