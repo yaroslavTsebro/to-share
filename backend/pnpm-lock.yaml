@@ -110,6 +110,9 @@ dependencies:
   typeorm:
     specifier: ^0.3.17
     version: 0.3.17(mongodb@6.0.0)(pg@8.11.3)(ts-node@10.9.1)
+  uuid:
+    specifier: ^9.0.1
+    version: 9.0.1
 
 devDependencies:
   '@nestjs/cli':
@@ -307,7 +310,7 @@ packages:
       chalk: 4.1.2
       graphql: 16.8.1
       js-levenshtein: 1.1.6
-      uuid: 9.0.0
+      uuid: 9.0.1
     dev: false
 
   /@apollo/gateway@2.5.5(graphql@16.8.1):
@@ -369,7 +372,7 @@ packages:
       deep-equal: 2.2.2
       graphql: 16.8.1
       ts-graphviz: 1.8.1
-      uuid: 9.0.0
+      uuid: 9.0.1
     dev: false
 
   /@apollo/query-planner@2.5.5(graphql@16.8.1):
@@ -441,7 +444,7 @@ packages:
       negotiator: 0.6.3
       node-abort-controller: 3.1.1
       node-fetch: 2.7.0
-      uuid: 9.0.0
+      uuid: 9.0.1
       whatwg-mimetype: 3.0.0
     transitivePeerDependencies:
       - encoding
@@ -7235,7 +7238,7 @@ packages:
       sha.js: 2.4.11
       ts-node: 10.9.1(@types/node@20.5.9)(typescript@5.2.2)
       tslib: 2.6.2
-      uuid: 9.0.0
+      uuid: 9.0.1
       yargs: 17.7.2
     transitivePeerDependencies:
       - supports-color
@@ -7312,6 +7315,11 @@ packages:
 
   /uuid@9.0.0:
     resolution: {integrity: sha512-MXcSTerfPa4uqyzStbRoTgt5XIe3x5+42+q1sDuy3R5MDk66URdLMOZe5aPX/SQd+kuYAh0FdP/pO28IkQyTeg==}
+    hasBin: true
+    dev: false
+
+  /uuid@9.0.1:
+    resolution: {integrity: sha512-b+1eJOlsR9K8HJpow9Ok3fiWOWSIcIzXodvv0rQjVoOVNpWMpxf1wZNpt4y9h10odCNrqnYp1OBzRktckBe3sA==}
     hasBin: true
     dev: false
 
