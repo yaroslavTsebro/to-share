@@ -13,7 +13,7 @@ export abstract class TypeOrmAbstractRepository<T extends BaseEntity<T>> {
 
   constructor(
     private readonly itemsRepository: Repository<T>,
-    private readonly entityManager: EntityManager,
+    public readonly entityManager: EntityManager,
   ) {}
 
   async create(entity: T): Promise<T> {
