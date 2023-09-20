@@ -9,7 +9,7 @@ import {
 } from '@nestjs/common';
 import { AuthService, Tokens } from '../service/auth.service';
 import { LocalAuthGuard } from '../guard/local-auth.guard';
-import { CurrentUser } from '@app/common';
+import { AUTHENTICATE, CurrentUser } from '@app/common';
 import User from '../users/entity/user.entity';
 import { Response } from 'express';
 import { ConfigService } from '@nestjs/config';
@@ -94,7 +94,7 @@ export class AuthController {
   }
 
   @UseGuards(AccessTokenGuard)
-  @MessagePattern('authenticate')
+  @MessagePattern(AUTHENTICATE)
   async authenticate(@Payload() data: any) {
     return data.user;
   }

@@ -1,13 +1,15 @@
+import { User } from '@app/common';
 import { CreateArticleDto } from '../entity/dto/create-article.dto';
+import { ArticleDocument } from '../entity/schema/article.schema';
 
 export const ARTICLE_SERVICE = Symbol('IArticlesService');
 
 export interface IArticlesService {
-  getHello(): string;
+  getById(id: string): Promise<ArticleDocument>;
 
   create(
+    user: User,
+    files: Array<Express.Multer.File>,
     dto: CreateArticleDto,
-    images: Express.Multer.File[],
-    userId: string,
-  ): string;
+  ): Promise<ArticleDocument>;
 }

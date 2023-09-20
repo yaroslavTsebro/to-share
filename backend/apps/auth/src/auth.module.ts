@@ -70,7 +70,7 @@ import { RefreshTokenStrategy } from './strategy/refresh-token.strategy';
     AuthService,
     LocalStrategy,
     AccessTokenStrategy,
-    // RefreshTokenStrategy,
+    RefreshTokenStrategy,
   ],
 })
 export class AuthModule {}

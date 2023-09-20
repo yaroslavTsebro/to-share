@@ -1,12 +1,10 @@
 import { MongooseAbstractDocument } from '@app/common';
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import mongoose, { HydratedDocument } from 'mongoose';
 import { Tag } from '../../tags/entity/schema/tag.schema';
-
-export type ArticleDocument = HydratedDocument<Article>;
+import mongoose from 'mongoose';
 
 @Schema()
-export class Article extends MongooseAbstractDocument {
+export class ArticleDocument extends MongooseAbstractDocument {
   @Prop()
   creatorId: string;
 
@@ -32,4 +30,4 @@ export class Article extends MongooseAbstractDocument {
   tags: Tag[];
 }
 
-export const ArticleSchema = SchemaFactory.createForClass(Article);
+export const ArticleSchema = SchemaFactory.createForClass(ArticleDocument);

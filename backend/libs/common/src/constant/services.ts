@@ -2,3 +2,9 @@ export const AUTH_SERVICE = 'auth';
 export const COMMENTS_SERVICE = 'comments';
 export const ARTICLES_SERVICE = 'articles';
 export const STATIC_SERVICE = 'static';
+
+export const AUTHENTICATE = 'authenticate';
+export const SAVE_ARTICLE_TITLE = 'save-article-title';
+export const SAVE_AVATAR = 'save-avatar';
+export const GET_AVATAR = 'get-avatar';
+export const GET_ARTICLE_TITLES = 'get-article-avatar';
