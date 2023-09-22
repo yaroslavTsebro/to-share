@@ -1,9 +1,10 @@
+import Router from "./routes/Router";
 import EditPost from "./pages/EditPost/EditPost";
 
 function App() {
   return (
     <div className="App">
-      <EditPost />
+      <Router/>
     </div>
   );
 }

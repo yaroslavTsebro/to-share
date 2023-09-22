@@ -1,0 +1,71 @@
+.header {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 100;
+}
+
+.headerContainer {
+  min-height: 125px;
+  align-items: center;
+  display: grid;
+  grid-template-areas: "name nav";
+  grid-template-columns: auto min-content;
+
+  @media (max-width: 600px) {
+    grid-template-areas: "name burger" "nav nav";
+  }
+}
+
+.headerUsername {
+  color: #FFF;
+  font-family: 'Inter';
+  font-size: 20px;
+  font-weight: 600;
+  line-height: 120%;
+  grid-area: name;
+}
+
+.headerBurger {
+  background-color: inherit;
+  font-size: 42px;
+  grid-area: burger;
+}
+
+
+.menuAnimations {}
+
+@media (max-width: 600px) {}
+
+.menuAnimationsEnter {
+  opacity: 0;
+  transform: scale(0.5);
+}
+
+.menuAnimationsEnterActive {
+  opacity: 1;
+  transform: translateX(0);
+  transition: opacity 350ms, transform 350ms;
+}
+
+.menuAnimationsExit {
+  opacity: 1;
+}
+
+.mmenuAnimationsExitActive {
+  grid-area: nav;
+  opacity: 0;
+  transform: scale(0.5);
+  transition: opacity 350ms, transform 350ms;
+}
+
+.headerMenu {
+  border: 1px solid white;
+}
+
+.menuList {
+  display: flex;
+  justify-content: flex-end;
+  width: auto;
+}
