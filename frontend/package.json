@@ -10,6 +10,7 @@
     "@types/node": "^16.18.50",
     "@types/react": "^18.2.21",
     "@types/react-dom": "^18.2.7",
+    "@types/react-router-dom": "^5.3.3",
     "prosemirror-schema-basic": "^1.2.2",
     "prosemirror-state": "^1.4.3",
     "prosemirror-view": "^1.31.8",
@@ -19,7 +20,9 @@
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-quill": "^2.0.0",
+    "react-router-dom": "^6.16.0",
     "react-scripts": "5.0.1",
+    "react-transition-group": "^4.4.5",
     "sass": "^1.66.1",
     "typescript": "^4.9.5",
     "web-vitals": "^2.1.4"
@@ -47,5 +50,8 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "@types/react-transition-group": "^4.4.6"
   }
 }
