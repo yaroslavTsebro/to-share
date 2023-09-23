@@ -1,0 +1,25 @@
+.logo {
+  padding: 155px 0 30px 0;
+}
+
+.logoContainer {
+  width: 100%;;
+  border-top: 1px solid #FFF;
+  border-bottom: 1px solid #FFF;
+}
+
+.logoText {
+  color: #FFF;
+  font-size: 25vmin;
+  font-weight: 700;
+}
+
+
+@media (max-width: 600px) {
+  .logoText {
+    font-size: 17vw;
+  }
+  .logo {
+    padding: 110px 0 30px 0;
+  }
+}
