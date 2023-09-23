@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import style from "./Header.module.scss";
+import styles from "./Header.module.scss";
 import { Container } from "../Container/Container";
 import { Menu } from "./Menu";
 import { CSSTransition } from "react-transition-group";
@@ -16,29 +16,29 @@ function Header() {
   };
 
   return (
-    <header className={style.header}>
-      <Container className={style.headerContainer}>
-        <div className={style.headerUsername}>Mock name</div>
-        <Menu className={style.headerMenu}>
+    <header className={styles.header}>
+      <Container className={styles.headerContainer}>
+        <div className={styles.headerUsername}>Mock name</div>
+        <Menu className={styles.headerMenu}>
           <CSSTransition
-            in={!isSmall}
+            in={!isSmall || isNavVisible}
             timeout={350}
             classNames={{
-              enter: style.menuAnimationsEnter,
-              enterActive: style.menuAnimationsEnterActive,
-              exit: style.menuAnimationsExit,
-              exitActive: style.menuAnimationsExitActive,
+              enter: styles.menuAnimationsEnter,
+              enterActive: styles.menuAnimationsEnterActive,
+              exit: styles.menuAnimationsExit,
+              exitActive: styles.menuAnimationsExitActive,
             }}
             unmountOnExit
           >
-            <ul className={style.menuList}>
+            <ul className={styles.menuList}>
               <NavLink href="#href1" title="Blog" />
               <NavLink href="#href2" title="Projects" />
               <NavLink href="#href3" title="About" />
             </ul>
           </CSSTransition>
         </Menu>
-        <>{isSmall && <button className={style.headerBurger}>🍔</button>}</>
+        <>{isSmall && <button className={styles.headerBurger} onClick={toggleNav}>🍔</button>}</>
       </Container>
     </header>
   );
