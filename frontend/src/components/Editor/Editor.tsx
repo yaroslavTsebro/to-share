@@ -53,6 +53,7 @@ function Editor() {
         modules={modules}
         formats={formats}
         theme="snow"
+        onChange={(value) => console.log(value)}
         ref={editorRef}
       />
     </>
