@@ -5,9 +5,11 @@ import * as Joi from 'joi';
 import { ArticlesController } from './controller/articles.controller';
 import { ARTICLE_SERVICE } from './service/articles-service.interface';
 import { TagsModule } from './tags/tags.module';
+import { LoggerModule } from '@app/common';
 
 @Module({
   imports: [
+    LoggerModule,
     ConfigModule.forRoot({
       envFilePath: './apps/articles/.env',
       isGlobal: true,
