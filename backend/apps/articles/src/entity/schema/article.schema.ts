@@ -11,6 +11,9 @@ export class ArticleDocument extends MongooseAbstractDocument {
   @Prop({ required: true })
   title: string;
 
+  @Prop({ required: true })
+  description: string;
+
   @Prop()
   titleImageIds: number[];
 
