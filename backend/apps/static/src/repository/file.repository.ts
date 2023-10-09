@@ -1,5 +1,5 @@
 import { TypeOrmAbstractRepository } from '@app/common';
-import { File } from '../entity/file.entity';
+import { File, FileType } from '../entity/file.entity';
 import { Logger } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { EntityManager, Repository } from 'typeorm';
@@ -15,8 +15,14 @@ export class FileRepository extends TypeOrmAbstractRepository<File> {
     super(fileRepository, entityManager);
   }
 
-  async createBatch(names: string[], articleId: string) {
-    const batchFiles = names.map((name) => ({ name, articleId }));
-    this.entityManager.save(batchFiles);
+  async createBatch(names: string[], articleId: string): Promise<File[]> {
+    const batchFiles = names.map((name) => {
+      return new File({
+        articleId: articleId,
+        name: name,
+        type: FileType.IMAGE,
+      });
+    });
+    return this.entityManager.save(batchFiles);
   }
 }
