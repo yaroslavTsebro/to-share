@@ -14,8 +14,10 @@ services:
     command: pnpm run start:dev gateway
     env_file:
       - ./apps/gateway/.env
-    ports: -'3004:3004'
-    volumes: -.:/usr/src/app
+    ports: 
+    - '3000:3000'
+    volumes: 
+    - .:/usr/src/app
   articles:
     container_name: articles
     build:
@@ -25,8 +27,10 @@ services:
     command: pnpm run start:dev articles
     env_file:
       - ./apps/articles/.env
-    ports: -'3000:3000'
-    volumes: -.:/usr/src/app
+    ports: 
+    - '3001:3001'
+    volumes: 
+    - .:/usr/src/app
   static:
     container_name: static
     build:
@@ -36,9 +40,11 @@ services:
     command: pnpm run start:dev static
     env_file:
       - ./apps/static/.env
-    ports: -'3001:3001'
-    volumes: -.:/usr/src/app
-      -./apps/static/static:/usr/src/app/apps/static/static
+    ports: 
+    - '3002:3002'
+    volumes:
+      - .:/usr/src/app
+      - ./apps/static/static:/usr/src/app/apps/static/static
   auth:
     container_name: auth
     build:
@@ -48,8 +54,10 @@ services:
     command: pnpm run start:dev auth
     env_file:
       - ./apps/auth/.env
-    ports: -'3003:3003'
-    volumes: -.:/usr/src/app
+    ports: 
+    - '3003:3003'
+    volumes:
+      - .:/usr/src/app
   comments:
     container_name: comments
     build:
@@ -59,8 +67,10 @@ services:
     command: pnpm run start:dev comments
     env_file:
       - ./apps/comments/.env
-    ports: -'3003:3003'
-    volumes: -.:/usr/src/app
+    ports: 
+    - '3004:3004'
+    volumes: 
+      - .:/usr/src/app
 
   mongo:
     image: mongo:latest
@@ -100,7 +110,8 @@ services:
     image: postgres:latest
     container_name: postgres
     restart: always
-    ports: -"5432:5432"
+    ports: 
+    - "5432:5432"
     environment:
       POSTGRES_DB: user
       POSTGRES_USER: password
@@ -112,4 +123,5 @@ services:
   kafka:
     image: 'bitnami/kafka:latest'
     container_name: kafka
-    ports: -"8000:8000"
+    ports: 
+    - "8000:8000"
