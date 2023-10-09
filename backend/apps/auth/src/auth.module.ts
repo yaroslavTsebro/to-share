@@ -33,8 +33,6 @@ import { RefreshTokenStrategy } from './strategy/refresh-token.strategy';
         JWT_REFRESH_SECRET: Joi.string().required(),
         JWT_ACCESS_EXPIRATION: Joi.string().required(),
         JWT_REFRESH_EXPIRATION: Joi.string().required(),
-        HTTP_PORT: Joi.number().required(),
-        TCP_PORT: Joi.number().required(),
         PORT: Joi.number().required(),
       }),
     }),

@@ -6,7 +6,9 @@ import { Request } from 'express';
 import { RefreshTokenPayload } from '../interface/refresh-token-payload.interface';
 import { AuthService } from '../service/auth.service';
 import User from '../users/entity/user.entity';
+import { Injectable } from '@nestjs/common';
 
+@Injectable()
 export class RefreshTokenStrategy extends PassportStrategy(
   Strategy,
   'jwt-refresh',
