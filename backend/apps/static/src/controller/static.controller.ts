@@ -1,4 +1,5 @@
 import {
+  GET_ARTICLES_TITLES,
   GET_ARTICLE_TITLES,
   GET_AVATAR,
   SAVE_ARTICLE_TITLE,
@@ -21,12 +22,12 @@ export class StaticController {
   @MessagePattern(SAVE_ARTICLE_TITLE)
   async createArticleFiles(
     @Payload() dto: CreateArticleFileDto,
-  ): Promise<string[]> {
+  ): Promise<File[]> {
     return await this.staticService.createArticleFiles(dto);
   }
 
   @MessagePattern(SAVE_AVATAR)
-  async createAvatarFile(@Payload() dto: CreateAvatarFileDto): Promise<string> {
+  async createAvatarFile(@Payload() dto: CreateAvatarFileDto): Promise<File> {
     return await this.staticService.createAvatarFile(dto);
   }
 
@@ -38,5 +39,10 @@ export class StaticController {
   @MessagePattern(GET_ARTICLE_TITLES)
   async getArticleFiles(@Payload() id: string): Promise<File[]> {
     return await this.staticService.getArticleFiles(id);
+  }
+
+  @MessagePattern(GET_ARTICLES_TITLES)
+  async getArticlesFiles(@Payload() ids: string[]): Promise<File[][]> {
+    return await this.staticService.getArticlesFiles(ids);
   }
 }
