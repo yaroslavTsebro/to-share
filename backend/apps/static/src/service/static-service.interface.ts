@@ -7,6 +7,7 @@ export const STATIC_SERVICE = Symbol('StaticService');
 export interface IStaticService {
   getAvatarFile(id: number): Promise<File>;
   getArticleFiles(id: string): Promise<File[]>;
-  createArticleFiles(dto: CreateArticleFileDto): Promise<string[]>;
-  createAvatarFile(dto: CreateAvatarFileDto): Promise<string>;
+  getArticlesFiles(ids: string[]): Promise<File[][]>;
+  createArticleFiles(dto: CreateArticleFileDto): Promise<File[]>;
+  createAvatarFile(dto: CreateAvatarFileDto): Promise<File>;
 }

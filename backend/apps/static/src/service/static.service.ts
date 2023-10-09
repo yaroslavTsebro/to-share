@@ -4,9 +4,10 @@ import { CreateArticleFileDto } from '../entity/dto/create-file.dto';
 import { FileRepository } from '../repository/file.repository';
 import { v4 as uuid } from 'uuid';
 import path from 'path';
-import { File } from '../entity/file.entity';
+import { File, FileType } from '../entity/file.entity';
 import * as fs from 'fs/promises';
 import { CreateAvatarFileDto } from '../entity/dto/create-avatar-file.dto';
+import { In } from 'typeorm';
 
 @Injectable()
 export class StaticService implements IStaticService {
@@ -14,7 +15,7 @@ export class StaticService implements IStaticService {
     @Inject(FileRepository) private readonly fileRepository: FileRepository,
   ) {}
 
-  async createArticleFiles(dto: CreateArticleFileDto): Promise<string[]> {
+  async createArticleFiles(dto: CreateArticleFileDto): Promise<File[]> {
     const fileNames: string[] = [];
 
     for (const file of dto.files) {
@@ -27,27 +28,43 @@ export class StaticService implements IStaticService {
       await fs.writeFile(filePath, file.buffer);
     }
 
-    await this.fileRepository.createBatch(fileNames, dto.articleId);
-    return fileNames;
+    return await this.fileRepository.createBatch(fileNames, dto.articleId);
   }
 
-  async createAvatarFile(dto: CreateAvatarFileDto): Promise<string> {
+  async createAvatarFile(dto: CreateAvatarFileDto): Promise<File> {
     const filename = uuid();
 
     const uploadDir = path.join(__dirname, '..', 'static');
     const filePath = path.join(uploadDir, filename);
     await fs.writeFile(filePath, dto.file.buffer);
 
-    await this.fileRepository.create(
-      new File({ articleId: dto.articleId, name: filename }),
+    return await this.fileRepository.create(
+      new File({
+        articleId: dto.articleId,
+        name: filename,
+        type: FileType.IMAGE,
+      }),
     );
-    return filename;
   }
 
   async getAvatarFile(id: number): Promise<File> {
-    return this.fileRepository.findOne({ userId: id });
+    return await this.fileRepository.findOne({ userId: id });
   }
   async getArticleFiles(id: string): Promise<File[]> {
-    return this.fileRepository.find({ articleId: id });
+    return await this.fileRepository.find({ articleId: id });
+  }
+
+  groupFiles(files: File[], ids: string[]): File[][] {
+    const orderedFiles: File[][] = [];
+    for (let i = 0; i < ids.length; i++) {
+      const id = ids[i];
+      orderedFiles[i] = files.filter((file) => file.articleId === id);
+    }
+    return orderedFiles;
+  }
+
+  async getArticlesFiles(ids: string[]): Promise<File[][]> {
+    const files = await this.fileRepository.find({ articleId: In(ids) });
+    return this.groupFiles(files, ids);
   }
 }
