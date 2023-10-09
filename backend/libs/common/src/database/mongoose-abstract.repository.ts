@@ -1,5 +1,5 @@
 import { Logger, NotFoundException } from '@nestjs/common';
-import { FilterQuery, Model, Types, UpdateQuery } from 'mongoose';
+import { FilterQuery, Model, QueryOptions, Types, UpdateQuery } from 'mongoose';
 import { CreateIndexesOptions } from 'mongodb';
 import { MongooseAbstractDocument } from './mongoose-abstract.schema';
 
@@ -18,8 +18,25 @@ export abstract class MongooseAbstractRepository<
     return (await createdDocument.save()).toJSON() as unknown as TDocument;
   }
 
-  async findOne(filterQuery: FilterQuery<TDocument>): Promise<TDocument> {
-    const document = await this.model.findOne(filterQuery, {}, { lean: true });
+  async findOne(filterQuery: FilterQuery<TDocument>): Promise<TDocument>;
+  async findOne(
+    filterQuery: FilterQuery<TDocument>,
+    options: QueryOptions<TDocument>,
+  ): Promise<TDocument>;
+  async findOne(
+    filterQuery: FilterQuery<TDocument>,
+    options?: QueryOptions<TDocument>,
+  ): Promise<TDocument> {
+    let document;
+    if (options) {
+      document = await this.model.findOne(
+        filterQuery,
+        {},
+        { ...options, lean: true },
+      );
+    } else {
+      document = await this.model.findOne(filterQuery, {}, { lean: true });
+    }
 
     if (!document) {
       this.logger.warn('Document not found with filterQuery', filterQuery);
@@ -32,11 +49,31 @@ export abstract class MongooseAbstractRepository<
   async findOneAndUpdate(
     filterQuery: FilterQuery<TDocument>,
     update: UpdateQuery<TDocument>,
+  ): Promise<TDocument>;
+  async findOneAndUpdate(
+    filterQuery: FilterQuery<TDocument>,
+    update: UpdateQuery<TDocument>,
+    options: QueryOptions<TDocument>,
+  ): Promise<TDocument>;
+  async findOneAndUpdate(
+    filterQuery: FilterQuery<TDocument>,
+    update: UpdateQuery<TDocument>,
+    options?: QueryOptions<TDocument>,
   ): Promise<TDocument> {
-    const document = await this.model.findOneAndUpdate(filterQuery, update, {
-      lean: true,
-      new: true,
-    });
+    let document;
+
+    if (options) {
+      document = await this.model.findOneAndUpdate(filterQuery, update, {
+        ...options,
+        lean: true,
+        new: true,
+      });
+    } else {
+      document = await this.model.findOneAndUpdate(filterQuery, update, {
+        lean: true,
+        new: true,
+      });
+    }
 
     if (!document) {
       this.logger.warn('Document not found with filterQuery', filterQuery);
@@ -46,12 +83,47 @@ export abstract class MongooseAbstractRepository<
     return document as TDocument;
   }
 
-  async find(filterQuery: FilterQuery<TDocument>) {
-    return this.model.find(filterQuery, {}, { lean: true });
+  async find(filterQuery: FilterQuery<TDocument>): Promise<TDocument[]>;
+  async find(
+    filterQuery: FilterQuery<TDocument>,
+    options: QueryOptions<TDocument>,
+  ): Promise<TDocument[]>;
+  async find(
+    filterQuery: FilterQuery<TDocument>,
+    options?: QueryOptions<TDocument>,
+  ): Promise<TDocument[]> {
+    let documents;
+
+    if (options) {
+      documents = await this.model.find(
+        filterQuery,
+        {},
+        { ...options, lean: true },
+      );
+    } else {
+      documents = await this.model.find(filterQuery, {}, { lean: true });
+    }
+    return documents as TDocument[];
   }
 
   async findOneAndDelete(filterQuery: FilterQuery<TDocument>) {
     return this.model.findOneAndDelete(filterQuery, { lean: true });
+  }
+
+  async getCount(filterQuery: FilterQuery<TDocument>): Promise<number>;
+  async getCount(
+    filterQuery: FilterQuery<TDocument>,
+    options: QueryOptions<TDocument>,
+  ): Promise<number>;
+  async getCount(
+    filterQuery: FilterQuery<TDocument>,
+    options?: QueryOptions<TDocument>,
+  ): Promise<number> {
+    if (options) {
+      return this.model.countDocuments(filterQuery, options);
+    } else {
+      return this.model.countDocuments(filterQuery);
+    }
   }
 
   async createIndex(options: CreateIndexesOptions) {

@@ -8,3 +8,4 @@ export const SAVE_ARTICLE_TITLE = 'save-article-title';
 export const SAVE_AVATAR = 'save-avatar';
 export const GET_AVATAR = 'get-avatar';
 export const GET_ARTICLE_TITLES = 'get-article-avatar';
+export const GET_ARTICLES_TITLES = 'get-articles-avatar';
