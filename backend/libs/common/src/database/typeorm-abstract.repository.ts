@@ -69,4 +69,10 @@ export abstract class TypeOrmAbstractRepository<T extends BaseEntity<T>> {
       throw new NotFoundException('Entity was not deleted.');
     }
   }
+
+  async findAndDeleteReturnAffectedRaws(
+    where: FindOptionsWhere<T>,
+  ): Promise<number> {
+    return (await this.itemsRepository.delete(where)).affected;
+  }
 }
