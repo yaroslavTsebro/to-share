@@ -8,12 +8,37 @@ import { File, FileType } from '../entity/file.entity';
 import * as fs from 'fs/promises';
 import { CreateAvatarFileDto } from '../entity/dto/create-avatar-file.dto';
 import { In } from 'typeorm';
+import { UpdateArticleFilesResponseDto } from '@app/common';
 
 @Injectable()
 export class StaticService implements IStaticService {
   constructor(
     @Inject(FileRepository) private readonly fileRepository: FileRepository,
   ) {}
+  async updateArticleFiles(
+    articleId: string,
+    ids?: number[],
+    dto?: CreateArticleFileDto,
+  ): Promise<UpdateArticleFilesResponseDto> {
+    const response = new UpdateArticleFilesResponseDto();
+
+    if (dto && dto.files.length > 0) {
+      response.createdIds = (await this.createArticleFiles(dto)).map(
+        (file) => file.id,
+      );
+    }
+
+    if (ids && ids.length > 0) {
+      const fileNames = (await this.getArticleFiles(articleId)).map(
+        (file) => file.name,
+      );
+      await this.deleteFiles(fileNames);
+      await this.fileRepository.findOneAndDelete({ id: In(ids) });
+      response.deletedIds = ids;
+    }
+
+    return response;
+  }
 
   async createArticleFiles(dto: CreateArticleFileDto): Promise<File[]> {
     const fileNames: string[] = [];
@@ -54,6 +79,12 @@ export class StaticService implements IStaticService {
     return await this.fileRepository.find({ articleId: id });
   }
 
+  async deleteArticleFiles(id: string): Promise<number> {
+    return await this.fileRepository.findAndDeleteReturnAffectedRaws({
+      articleId: id,
+    });
+  }
+
   groupFiles(files: File[], ids: string[]): File[][] {
     const orderedFiles: File[][] = [];
     for (let i = 0; i < ids.length; i++) {
@@ -66,5 +97,19 @@ export class StaticService implements IStaticService {
   async getArticlesFiles(ids: string[]): Promise<File[][]> {
     const files = await this.fileRepository.find({ articleId: In(ids) });
     return this.groupFiles(files, ids);
+  }
+
+  async deleteFiles(fileNames: string[]): Promise<void[]> {
+    const deletionPromises: Promise<void>[] = [];
+
+    fileNames.forEach((fileName) => {
+      const deletionPromise = new Promise<void>(() => {
+        fs.unlink(fileName);
+      });
+
+      deletionPromises.push(deletionPromise);
+    });
+
+    return Promise.all(deletionPromises);
   }
 }
