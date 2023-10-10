@@ -9,3 +9,5 @@ export const SAVE_AVATAR = 'save-avatar';
 export const GET_AVATAR = 'get-avatar';
 export const GET_ARTICLE_TITLES = 'get-article-avatar';
 export const GET_ARTICLES_TITLES = 'get-articles-avatar';
+export const DELETE_ARTICLE_TITLES = 'delete-article-avatars';
+export const UPDATE_ARTICLE_TITLES = 'update-article-avatars';
