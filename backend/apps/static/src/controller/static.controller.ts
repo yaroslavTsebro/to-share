@@ -1,10 +1,13 @@
 import {
+  DELETE_ARTICLE_TITLES,
   GET_ARTICLES_TITLES,
   GET_ARTICLE_TITLES,
   GET_AVATAR,
   SAVE_ARTICLE_TITLE,
   SAVE_AVATAR,
   STATIC_SERVICE,
+  UPDATE_ARTICLE_TITLES,
+  UpdateArticleFilesResponseDto,
 } from '@app/common';
 import { File } from '../entity/file.entity';
 import { Controller, Inject } from '@nestjs/common';
@@ -44,5 +47,23 @@ export class StaticController {
   @MessagePattern(GET_ARTICLES_TITLES)
   async getArticlesFiles(@Payload() ids: string[]): Promise<File[][]> {
     return await this.staticService.getArticlesFiles(ids);
+  }
+
+  @MessagePattern(DELETE_ARTICLE_TITLES)
+  async deleteArticleFiles(@Payload() id: string): Promise<number> {
+    return await this.staticService.deleteArticleFiles(id);
+  }
+
+  @MessagePattern(UPDATE_ARTICLE_TITLES)
+  async updateArticleFiles(
+    @Payload() articleId: string,
+    @Payload() idsToDelete?: number[],
+    @Payload() dto?: CreateArticleFileDto,
+  ): Promise<UpdateArticleFilesResponseDto> {
+    return await this.staticService.updateArticleFiles(
+      articleId,
+      idsToDelete,
+      dto,
+    );
   }
 }
