@@ -10,6 +10,7 @@ import { STATIC_SERVICE } from './service/static-service.interface';
 import { StaticController } from './controller/static.controller';
 import { LoggerModule } from '@app/common';
 import { PostgresConnectionOptions } from 'typeorm/driver/postgres/PostgresConnectionOptions';
+import { FileRepository } from './repository/file.repository';
 
 @Module({
   imports: [
@@ -21,6 +22,7 @@ import { PostgresConnectionOptions } from 'typeorm/driver/postgres/PostgresConne
         PORT: Joi.number().required(),
       }),
     }),
+    TypeOrmModule.forFeature([File]),
     TypeOrmModule.forRootAsync({
       inject: [ConfigService],
       useFactory: async (config: ConfigService) => {
@@ -42,6 +44,7 @@ import { PostgresConnectionOptions } from 'typeorm/driver/postgres/PostgresConne
     }),
   ],
   providers: [
+    FileRepository,
     {
       useClass: StaticService,
       provide: STATIC_SERVICE,

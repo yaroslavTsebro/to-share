@@ -11,3 +11,8 @@ export const GET_ARTICLE_TITLES = 'get-article-avatar';
 export const GET_ARTICLES_TITLES = 'get-articles-avatar';
 export const DELETE_ARTICLE_TITLES = 'delete-article-avatars';
 export const UPDATE_ARTICLE_TITLES = 'update-article-avatars';
+
+export const GET_COMMENT_REPLIES = 'get-comment-replies';
+export const DELETE_COMMENT = 'delete-comment';
+export const UPDATE_COMMENT = 'update-comment';
+export const GET_COMMENTS = 'get-comments';

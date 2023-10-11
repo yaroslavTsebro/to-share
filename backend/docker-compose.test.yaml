@@ -114,8 +114,7 @@ services:
       POSTGRES_PASSWORD: mydb1
       PGDATA: '/var/lib/postgresql/data/pgdata'
 
-  kafka:
-    image: 'bitnami/kafka:latest'
-    container_name: kafka
-    ports: 
-    - "8000:8000"
+  rabbitmq:
+    image: rabbitmq
+    ports:
+      - '8000:8000'

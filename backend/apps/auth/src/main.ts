@@ -10,9 +10,9 @@ async function bootstrap() {
   const app = await NestFactory.create(AuthModule);
   const configService = app.get(ConfigService);
   app.connectMicroservice({
-    transport: Transport.KAFKA,
+    transport: Transport.RMQ,
     options: {
-      urls: [configService.getOrThrow('KAFKA_URI')],
+      urls: [configService.getOrThrow('RABBITMQ_URI')],
       queue: 'auth',
     },
   });

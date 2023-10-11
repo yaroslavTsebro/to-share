@@ -27,6 +27,7 @@ COPY package.json ./
 COPY pnpm-lock.yaml ./
 
 RUN npm install -g pnpm
+RUN npm i -g @nestjs/cli
 
 RUN pnpm install --prod
 

@@ -8,6 +8,7 @@ COPY tsconfig.json tsconfig.json
 COPY nest-cli.json nest-cli.json
 
 RUN npm install -g pnpm
+RUN npm i -g @nestjs/cli
 
 COPY apps/gateway apps/gateway
 COPY libs libs
@@ -27,6 +28,7 @@ COPY package.json ./
 COPY pnpm-lock.yaml ./
 
 RUN npm install -g pnpm
+RUN npm i -g @nestjs/cli
 
 RUN pnpm install --prod
 

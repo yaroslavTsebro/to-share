@@ -10,12 +10,12 @@ async function bootstrap() {
   app.connectMicroservice({
     transport: Transport.RMQ,
     options: {
-      urls: [configService.getOrThrow('KAFKA_URI')],
+      urls: [configService.getOrThrow('RABBITMQ_URI')],
       queue: 'static',
     },
   });
   app.useLogger(app.get(Logger));
-  console.log(configService.get('PORT'));
+  await app.startAllMicroservices();
   await app.listen(configService.get('PORT'));
 }
 bootstrap();
