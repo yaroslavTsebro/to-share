@@ -20,6 +20,7 @@ import {
 import { FilesInterceptor } from '@nestjs/platform-express';
 import {
   CurrentUser,
+  IS_ARTICLE_PRESENT,
   JwtAuthGuard,
   SortQuery,
   SortValidationPipe,
@@ -31,6 +32,7 @@ import { PaginationArticleDto } from '../entity/dto/pagination-article.dto';
 import { sortTypeKeys } from '../entity/dto/sort-by-article.type';
 import { UpdateArticleDto } from '../entity/dto/update-article.dto';
 import { DeleteArticleDto } from '../entity/dto/delete-article.dto';
+import { MessagePattern, Payload } from '@nestjs/microservices';
 
 @Controller('articles')
 export class ArticlesController {
@@ -96,5 +98,10 @@ export class ArticlesController {
     @Body() dto: CreateArticleDto,
   ): Promise<ResponseArticleDto> {
     return this.articlesService.create(user, files, dto);
+  }
+
+  @MessagePattern(IS_ARTICLE_PRESENT)
+  async checkArticleForPresence(@Payload() id: string): Promise<boolean> {
+    return await this.articlesService.checkForPrensece(id);
   }
 }
