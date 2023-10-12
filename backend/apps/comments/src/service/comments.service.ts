@@ -22,7 +22,7 @@ export class CommentsService implements ICommentsService {
   constructor(
     private readonly commentsRepository: CommentRepository,
     @Inject(ARTICLES_SERVICE) private readonly articlesService: ClientProxy,
-    @Inject(STATIC_SERVICE) private readonly staticl: ClientProxy,
+    @Inject(STATIC_SERVICE) private readonly staticService: ClientProxy,
   ) {}
 
   async delete(id: number, user: User) {
@@ -42,7 +42,7 @@ export class CommentsService implements ICommentsService {
     const userIds = comments.map((comment) => comment.userId);
     const count = await this.commentsRepository.getCount(articleId);
 
-    const avatars = await this.articlesService
+    const avatars = await this.staticService
       .send<File[]>(GET_AVATARS_BY_USER_IDS, userIds)
       .toPromise();
 
@@ -96,7 +96,7 @@ export class CommentsService implements ICommentsService {
     const count = (await this.commentsRepository.findOne({ id: id }))
       .numberOfReplies;
 
-    const avatars = await this.articlesService
+    const avatars = await this.staticService
       .send<File[]>(GET_AVATARS_BY_USER_IDS, userIds)
       .toPromise();
 

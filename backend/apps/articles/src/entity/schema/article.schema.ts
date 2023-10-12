@@ -1,7 +1,7 @@
+import mongoose from 'mongoose';
+import { TagDocument } from '../../tags/entity/schema/tag.schema';
 import { MongooseAbstractDocument } from '@app/common';
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { TagDocument } from '../../tags/entity/schema/tag.schema';
-import mongoose from 'mongoose';
 
 @Schema()
 export class ArticleDocument extends MongooseAbstractDocument {
@@ -30,7 +30,7 @@ export class ArticleDocument extends MongooseAbstractDocument {
   commentsAmount: number;
 
   @Prop({
-    type: [{ type: mongoose.Schema.Types.ObjectId, ref: TagDocument.name }],
+    type: [{ type: mongoose.Schema.Types.ObjectId, ref: 'TagDocument' }],
   })
   tags: TagDocument[];
 }

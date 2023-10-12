@@ -10,8 +10,8 @@ export class ArticlesRepository extends MongooseAbstractRepository<ArticleDocume
 
   constructor(
     @InjectModel(ArticleDocument.name)
-    reservationModel: Model<ArticleDocument>,
+    private readonly articlesModel: Model<ArticleDocument>,
   ) {
-    super(reservationModel);
+    super(articlesModel);
   }
 }

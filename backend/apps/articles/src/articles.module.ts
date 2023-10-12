@@ -7,9 +7,21 @@ import { ARTICLE_SERVICE } from './service/articles-service.interface';
 import { TagsModule } from './tags/tags.module';
 import { AUTH_SERVICE, LoggerModule, STATIC_SERVICE } from '@app/common';
 import { ClientsModule, Transport } from '@nestjs/microservices';
+import { MongooseModule } from '@nestjs/mongoose';
+import { ArticleDocument, ArticleSchema } from './entity/schema/article.schema';
+import { ArticlesRepository } from './repository/articles.repository';
 
 @Module({
   imports: [
+    MongooseModule.forRootAsync({
+      useFactory: (configService: ConfigService) => ({
+        uri: configService.get('MONGODB_URI'),
+      }),
+      inject: [ConfigService],
+    }),
+    MongooseModule.forFeature([
+      { name: ArticleDocument.name, schema: ArticleSchema },
+    ]),
     LoggerModule,
     ConfigModule.forRoot({
       envFilePath: './apps/articles/.env',
@@ -46,10 +58,12 @@ import { ClientsModule, Transport } from '@nestjs/microservices';
   ],
   controllers: [ArticlesController],
   providers: [
+    ArticlesRepository,
     {
       useClass: ArticlesService,
       provide: ARTICLE_SERVICE,
     },
   ],
+  exports: [ArticlesRepository],
 })
 export class ArticlesModule {}

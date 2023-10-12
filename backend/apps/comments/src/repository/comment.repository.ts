@@ -9,7 +9,7 @@ export class CommentRepository extends TypeOrmAbstractRepository<Comment> {
 
   constructor(
     @InjectRepository(Comment)
-    private commentRepository: Repository<Comment>,
+    public commentRepository: Repository<Comment>,
     entityManager: EntityManager,
   ) {
     super(commentRepository, entityManager);
