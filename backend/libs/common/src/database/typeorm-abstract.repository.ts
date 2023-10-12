@@ -12,7 +12,7 @@ export abstract class TypeOrmAbstractRepository<T extends BaseEntity<T>> {
   protected abstract readonly logger: Logger;
 
   constructor(
-    private readonly itemsRepository: Repository<T>,
+    public readonly itemsRepository: Repository<T>,
     public readonly entityManager: EntityManager,
   ) {}
 
