@@ -15,6 +15,11 @@ export class StaticService implements IStaticService {
   constructor(
     @Inject(FileRepository) private readonly fileRepository: FileRepository,
   ) {}
+
+  async getAvatarsByIds(ids: number[]): Promise<File[]> {
+    return await this.fileRepository.find({ id: In(ids) });
+  }
+
   async updateArticleFiles(
     articleId: string,
     ids?: number[],

@@ -17,4 +17,5 @@ export interface IStaticService {
   ): Promise<UpdateArticleFilesResponseDto>;
   createAvatarFile(dto: CreateAvatarFileDto): Promise<File>;
   deleteArticleFiles(id: string): Promise<number>;
+  getAvatarsByIds(id: number[]): Promise<File[]>;
 }

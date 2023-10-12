@@ -3,6 +3,7 @@ import {
   GET_ARTICLES_TITLES,
   GET_ARTICLE_TITLES,
   GET_AVATAR,
+  GET_AVATARS_BY_USER_IDS,
   SAVE_ARTICLE_TITLE,
   SAVE_AVATAR,
   STATIC_SERVICE,
@@ -32,6 +33,11 @@ export class StaticController {
   @MessagePattern(SAVE_AVATAR)
   async createAvatarFile(@Payload() dto: CreateAvatarFileDto): Promise<File> {
     return await this.staticService.createAvatarFile(dto);
+  }
+
+  @MessagePattern(GET_AVATARS_BY_USER_IDS)
+  async getAvatarsByUserIds(@Payload() ids: number[]): Promise<File[]> {
+    return await this.staticService.getAvatarsByIds(ids);
   }
 
   @MessagePattern(GET_AVATAR)
