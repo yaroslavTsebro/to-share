@@ -31,6 +31,11 @@ export class ArticlesService implements IArticlesService {
     @Inject(STATIC_SERVICE) private readonly staticService: ClientProxy,
   ) {}
 
+  async checkForPrensece(id: string): Promise<boolean> {
+    const article = await this.articlesRepository.findOne({ _id: id });
+    return article ? true : false;
+  }
+
   async getByPagination(
     page: number,
     perPage: number,

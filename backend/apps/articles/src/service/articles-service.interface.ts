@@ -19,6 +19,7 @@ export interface IArticlesService {
   ): Promise<PaginationArticleDto>;
 
   deleteById(id: string): Promise<DeleteArticleDto>;
+  checkForPrensece(id: string): Promise<boolean>;
 
   updateById(
     id: string,
