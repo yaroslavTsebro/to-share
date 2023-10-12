@@ -1,4 +1,5 @@
 import { BaseEntity } from '@app/common';
+import { Exclude } from 'class-transformer';
 import { Column, Entity, Index, ManyToOne, OneToMany } from 'typeorm';
 
 @Entity()
@@ -19,7 +20,10 @@ export class Comment extends BaseEntity<File> {
   })
   parentComment: Comment;
 
-  @OneToMany((type) => Comment, (comment) => comment.parentComment)
+  @OneToMany((type) => Comment, (comment) => comment.parentComment, {
+    onDelete: 'CASCADE',
+  })
+  @Exclude()
   replies: Comment[];
 
   @ManyToOne((type) => Comment, (comment) => comment.rootReplies, {
@@ -27,7 +31,10 @@ export class Comment extends BaseEntity<File> {
   })
   rootComment: Comment;
 
-  @OneToMany((type) => Comment, (comment) => comment.rootComment)
+  @OneToMany((type) => Comment, (comment) => comment.rootComment, {
+    onDelete: 'CASCADE',
+  })
+  @Exclude()
   rootReplies: Comment[];
 
   @Column({ default: 0 })

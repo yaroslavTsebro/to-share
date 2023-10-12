@@ -13,7 +13,7 @@ import {
 } from '@nestjs/common';
 import { UpdateCommentDto } from '../entity/dto/update-comment.dto';
 import { CreateCommentDto } from '../entity/dto/create-comment.dto';
-import { Comment } from '../entity/comment.entity';
+import { PaginationCommentDto } from '../entity/dto/pagination-comment.dto';
 
 @Controller('comments')
 export class CommentsController {
@@ -27,7 +27,7 @@ export class CommentsController {
     @Param('articleId') id: string,
     @Query('page') page: number = 1,
     @Query('perPage') perPage: number = 20,
-  ): Promise<Comment[]> {
+  ): Promise<PaginationCommentDto> {
     return this.commentsService.getComments(id, page, perPage);
   }
 
@@ -36,14 +36,14 @@ export class CommentsController {
     @Param('id') id: number,
     @Query('page') page: number = 1,
     @Query('perPage') perPage: number = 20,
-  ): Promise<Comment[]> {
+  ): Promise<PaginationCommentDto> {
     return this.commentsService.getReplies(id, page, perPage);
   }
 
   @Put(':id')
   @UseGuards(JwtAuthGuard)
   async updateById(
-    @Param('id') id: string,
+    @Param('id') id: number,
     @CurrentUser() user: User,
     @Body() dto: UpdateCommentDto,
   ): Promise<string> {
