@@ -1,3 +1,4 @@
+import { UserCommentDto } from '@app/common';
 import { CreateUserDto } from '../entity/dto/create-user.dto';
 import User from '../entity/user.entity';
 
@@ -9,4 +10,5 @@ export interface IUsersService {
   getById(id: number): Promise<User>;
   changeUsername(id: number, username: string): Promise<User>;
   delete(id: number): Promise<void>;
+  getByIdsForComments(ids: number[]): Promise<UserCommentDto[]>;
 }

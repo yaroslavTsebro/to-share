@@ -9,7 +9,12 @@ import {
 } from '@nestjs/common';
 import { AuthService, Tokens } from '../service/auth.service';
 import { LocalAuthGuard } from '../guard/local-auth.guard';
-import { AUTHENTICATE, CurrentUser } from '@app/common';
+import {
+  AUTHENTICATE,
+  CurrentUser,
+  GET_USERS_BY_IDS_FOR_COMMENT,
+  UserCommentDto,
+} from '@app/common';
 import User from '../users/entity/user.entity';
 import { Response } from 'express';
 import { ConfigService } from '@nestjs/config';
@@ -85,6 +90,13 @@ export class AuthController {
     @Body() dto: ChangeUsernameDto,
   ) {
     return await this.authService.changeUsername(user, dto);
+  }
+
+  @MessagePattern(GET_USERS_BY_IDS_FOR_COMMENT)
+  async getUsersByComments(
+    @Payload() ids: number[],
+  ): Promise<UserCommentDto[]> {
+    return await this.authService.getUsersByIds(ids);
   }
 
   @Delete()

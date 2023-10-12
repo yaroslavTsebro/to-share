@@ -14,6 +14,7 @@ import {
   TOKEN_SERVICE,
 } from '../token/service/token-service.interface';
 import { ChangeUsernameDto } from '../users/entity/dto/change-username.dto';
+import { UserCommentDto } from '@app/common';
 
 export type Tokens = { accessToken: string; refreshToken: string };
 
@@ -40,6 +41,10 @@ export class AuthService {
 
   async getById(userId: number): Promise<User> {
     return this.usersService.getById(userId);
+  }
+
+  async getUsersByIds(ids: number[]): Promise<UserCommentDto[]> {
+    return await this.usersService.getByIdsForComments(ids);
   }
 
   async getTokens(user: User): Promise<Tokens> {

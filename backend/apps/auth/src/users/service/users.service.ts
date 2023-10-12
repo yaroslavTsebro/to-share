@@ -9,12 +9,19 @@ import { CreateUserDto } from '../entity/dto/create-user.dto';
 import User, { UserRole } from '../entity/user.entity';
 import * as bcrypt from 'bcryptjs';
 import { UsersRepository } from '../repository/users.repository';
+import { UserCommentDto } from '@app/common';
+import { In } from 'typeorm';
 
 @Injectable()
 export class UsersService implements IUsersService {
   constructor(
     @Inject(UsersRepository) private readonly usersRepository: UsersRepository,
   ) {}
+
+  async getByIdsForComments(ids: number[]): Promise<UserCommentDto[]> {
+    const users = await this.usersRepository.find({ id: In(ids) });
+    return UserCommentDto.mapUsersToDtos(users);
+  }
 
   async delete(id: number): Promise<void> {
     return await this.usersRepository.findOneAndDelete({ id });
