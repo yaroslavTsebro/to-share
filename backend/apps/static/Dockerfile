@@ -1,4 +1,4 @@
-FROM node:alpine As development
+FROM node:18-alpine As development
 
 WORKDIR /usr/src/app
 
@@ -8,16 +8,15 @@ COPY tsconfig.json tsconfig.json
 COPY nest-cli.json nest-cli.json
 
 RUN npm install -g pnpm
-RUN npm i -g @nestjs/cli
 
 COPY apps/static apps/static
 COPY libs libs
 
-RUN pnpm install -r
+RUN pnpm install
 
 RUN pnpm run build static
 
-FROM node:alpine as production
+FROM node:18-alpine as production
 
 ARG NODE_ENV=production
 ENV NODE_ENV=${NODE_ENV}

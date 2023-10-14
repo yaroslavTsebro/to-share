@@ -17,7 +17,7 @@ services:
     ports:
       - '3000:3000'
     volumes:
-      - .:/usr/src/app
+      - ./apps:/usr/src/app/apps
   articles:
     container_name: articles
     build:
@@ -30,20 +30,19 @@ services:
     ports:
       - '3001:3001'
     volumes:
-      - .:/usr/src/app
+      - ./apps:/usr/src/app/apps
   static:
-    container_name: static
     build:
       context: .
       dockerfile: ./apps/static/Dockerfile
       target: development
-    command: pnpm run start:dev static
+    command: pnpm run start static
     env_file:
       - ./apps/static/.env
     ports:
       - '3002:3002'
     volumes:
-      - .:/usr/src/app
+      - ./apps:/usr/src/app/apps
       - ./apps/static/static:/usr/src/app/apps/static/static
   auth:
     container_name: auth
@@ -57,7 +56,7 @@ services:
     ports:
       - '3003:3003'
     volumes:
-      - .:/usr/src/app
+      - ./apps:/usr/src/app/apps
   comments:
     container_name: comments
     build:
@@ -70,7 +69,7 @@ services:
     ports:
       - '3004:3004'
     volumes:
-      - .:/usr/src/app
+      - ./apps:/usr/src/app/apps
 
   mongo:
     image: mongo:latest
