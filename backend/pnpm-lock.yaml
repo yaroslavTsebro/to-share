@@ -173,7 +173,7 @@ devDependencies:
     specifier: ^5.0.0
     version: 5.0.0(eslint-config-prettier@9.0.0)(eslint@8.48.0)(prettier@3.0.3)
   jest:
-    specifier: ^29.5.0
+    specifier: ^29.6.4
     version: 29.6.4(@types/node@20.5.9)(ts-node@10.9.1)
   prettier:
     specifier: ^3.0.0
