@@ -1,9 +1,6 @@
 .menuItem {
   color: #FFF;
   font-family: 'Inter';
-  font-size: 20px;
-  font-weight: 400;
-  line-height: 120%;
   &:not(:last-child){
     padding-right: 30px;
   }
@@ -11,4 +8,8 @@
 
 .menuLink {
   color: #FFF;
+  font-size: 20px;
+  font-weight: 400;
+  line-height: 120%;
+  background-color: transparent;
 }

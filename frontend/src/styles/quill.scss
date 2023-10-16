@@ -38,3 +38,8 @@
 a{
   color: $purple1-color;
 }
+
+
+.quill > *:first-child {
+  border: none !important;
+}

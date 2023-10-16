@@ -32,9 +32,9 @@ function Header() {
             unmountOnExit
           >
             <ul className={styles.menuList}>
-              <NavLink href="#href1" title="Blog" />
+              <NavLink href="about" title="Blog" />
               <NavLink href="#href2" title="Projects" />
-              <NavLink href="#href3" title="About" />
+              <NavLink href="/about-us" title="About" />
             </ul>
           </CSSTransition>
         </Menu>

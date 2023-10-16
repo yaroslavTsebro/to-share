@@ -1,3 +1,4 @@
+import { useNavigate } from "react-router-dom";
 import style from "./NavLink.module.scss";
 
 interface Props {
@@ -7,13 +8,19 @@ interface Props {
 }
 
 export const NavLink: React.FC<Props> = ({ className, href, title }) => {
+  const navigate = useNavigate();
+
+  function handleClick(event: React.MouseEvent<HTMLElement>) {
+    event.preventDefault();
+    navigate(href);
+  }
   const classes = `${style.menuItem} ${className || ""}`;
 
   return (
     <li className={classes}>
-      <a href={href} className={style.menuLink}>
+      <button onClick={handleClick} className={style.menuLink}>
         {title}
-      </a>
+      </button>
     </li>
   );
 };

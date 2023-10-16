@@ -3,6 +3,8 @@ import ReactQuill from "react-quill";
 import { ABOUT_US_TEXT } from "./data";
 import { Container } from "../../components/Container/Container";
 import styles from "./AboutUs.module.scss";
+import "react-quill/dist/quill.snow.css";
+import "../../styles/quill.scss";
 
 const AboutUs = () => {
   return (

@@ -4,6 +4,7 @@ import EditPost from "../pages/EditPost/EditPost";
 import MainPage from "../pages/MainPage/MainPage";
 import { Layout } from "../components/Layout/Layout";
 import AboutUs from "../pages/AboutUs/AboutUs";
+import { Slider } from "../components/Slider/Slider";
 
 const router = createBrowserRouter([
   {
@@ -20,6 +21,10 @@ const router = createBrowserRouter([
         element: <AboutUs />,
       },
     ],
+  },
+  {
+    path: "/slider",
+    element: <Slider />,
   },
 ]);
 
