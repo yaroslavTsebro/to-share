@@ -1,7 +1,5 @@
 import { MongooseAbstractDocument } from '@app/common';
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { ArticleDocument } from 'apps/articles/src/entity/schema/article.schema';
-import mongoose from 'mongoose';
 
 @Schema()
 export class TagDocument extends MongooseAbstractDocument {
