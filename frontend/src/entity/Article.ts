@@ -1,4 +1,4 @@
-import { Tag } from "./Tag";
+import { Tag } from "./tag/tag";
 import { File } from "./File";
 
 export class Article{
