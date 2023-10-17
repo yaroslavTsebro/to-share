@@ -40,7 +40,7 @@ export class AuthController {
     const tokens = await this.authService.getTokens(user);
 
     this.addTokensToCookies(response, tokens);
-    response.send(tokens);
+    response.send(user);
   }
 
   @Post('register')
@@ -48,10 +48,10 @@ export class AuthController {
     @Res({ passthrough: true }) response: Response,
     @Body() user: CreateUserDto,
   ) {
-    const tokens = await this.authService.register(user);
+    const result = await this.authService.register(user);
 
-    this.addTokensToCookies(response, tokens);
-    response.send(tokens);
+    this.addTokensToCookies(response, result.tokens);
+    response.send(result.user);
   }
 
   @Post('logout')
@@ -80,7 +80,7 @@ export class AuthController {
     const tokens = await this.authService.getTokens(user);
 
     this.addTokensToCookies(response, tokens);
-    response.send(tokens);
+    response.send(user);
   }
 
   @Post('change-username')
