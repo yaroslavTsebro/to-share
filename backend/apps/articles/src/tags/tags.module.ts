@@ -3,6 +3,9 @@ import { Module } from '@nestjs/common';
 import { TagRepository } from './repository/tag.repository';
 import { TagDocument, TagSchema } from './entity/schema/tag.schema';
 import { MongooseModule } from '@nestjs/mongoose';
+import { TAG_SERVICE } from './service/tag-service.interface';
+import { TagService } from './service/tag.service';
+import { TagController } from './controller/tags.controller';
 
 @Module({
   imports: [
@@ -10,7 +13,14 @@ import { MongooseModule } from '@nestjs/mongoose';
     MongooseModule,
     MongooseModule.forFeature([{ name: TagDocument.name, schema: TagSchema }]),
   ],
-  providers: [TagRepository],
+  controllers: [TagController],
+  providers: [
+    TagRepository,
+    {
+      useClass: TagService,
+      provide: TAG_SERVICE,
+    },
+  ],
   exports: [TagRepository],
 })
 export class TagsModule {}

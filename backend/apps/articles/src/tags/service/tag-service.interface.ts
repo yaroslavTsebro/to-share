@@ -1,5 +1,7 @@
 import { TagDocument } from '../entity/schema/tag.schema';
 
+export const TAG_SERVICE = Symbol('tag-service');
+
 export interface ITagService {
-  get7ByLikeSeqrch(name: string): Promise<TagDocument[]>;
+  get7ByLikeOption(name: string): Promise<TagDocument[]>;
 }
