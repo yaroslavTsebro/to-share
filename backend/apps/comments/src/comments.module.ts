@@ -1,10 +1,6 @@
 import { Module } from '@nestjs/common';
 import { CommentsService } from './service/comments.service';
-import {
-  ARTICLES_SERVICE,
-  COMMENTS_SERVICE,
-  STATIC_SERVICE,
-} from '@app/common';
+import { AUTH_SERVICE, COMMENTS_SERVICE, STATIC_SERVICE } from '@app/common';
 import { CommentRepository } from './repository/comment.repository';
 import { CommentsController } from './controller/comments.controller';
 import { TypeOrmModule } from '@nestjs/typeorm';
@@ -46,12 +42,12 @@ import { ClientsModule, Transport } from '@nestjs/microservices';
     }),
     ClientsModule.registerAsync([
       {
-        name: ARTICLES_SERVICE,
+        name: AUTH_SERVICE,
         useFactory: (configService: ConfigService) => ({
           transport: Transport.RMQ,
           options: {
             urls: [configService.getOrThrow<string>('RABBITMQ_URI')],
-            queue: 'articles',
+            queue: 'auth',
           },
         }),
         inject: [ConfigService],

@@ -1,7 +1,6 @@
 import { BadRequestException, Inject, Injectable } from '@nestjs/common';
 import { ICommentsService } from './comments-service.interface';
 import {
-  ARTICLES_SERVICE,
   IS_ARTICLE_PRESENT,
   STATIC_SERVICE,
   User,
@@ -9,6 +8,7 @@ import {
   GET_AVATARS_BY_USER_IDS,
   UserCommentDto,
   GET_USERS_BY_IDS_FOR_COMMENT,
+  AUTH_SERVICE,
 } from '@app/common';
 import { CreateCommentDto } from '../entity/dto/create-comment.dto';
 import { UpdateCommentDto } from '../entity/dto/update-comment.dto';
@@ -21,7 +21,7 @@ import { PaginationCommentDto } from '../entity/dto/pagination-comment.dto';
 export class CommentsService implements ICommentsService {
   constructor(
     private readonly commentsRepository: CommentRepository,
-    @Inject(ARTICLES_SERVICE) private readonly articlesService: ClientProxy,
+    @Inject(AUTH_SERVICE) private readonly usersService: ClientProxy,
     @Inject(STATIC_SERVICE) private readonly staticService: ClientProxy,
   ) {}
 
@@ -46,7 +46,7 @@ export class CommentsService implements ICommentsService {
       .send<File[]>(GET_AVATARS_BY_USER_IDS, userIds)
       .toPromise();
 
-    const users = await this.articlesService
+    const users = await this.usersService
       .send<UserCommentDto[]>(GET_USERS_BY_IDS_FOR_COMMENT, userIds)
       .toPromise();
 
@@ -100,7 +100,7 @@ export class CommentsService implements ICommentsService {
       .send<File[]>(GET_AVATARS_BY_USER_IDS, userIds)
       .toPromise();
 
-    const users = await this.articlesService
+    const users = await this.usersService
       .send<UserCommentDto[]>(GET_USERS_BY_IDS_FOR_COMMENT, userIds)
       .toPromise();
 
@@ -143,7 +143,7 @@ export class CommentsService implements ICommentsService {
   }
 
   async create(articleId: string, user: User, dto: CreateCommentDto) {
-    const isArticlePresent = await this.articlesService
+    const isArticlePresent = await this.usersService
       .send<boolean>(IS_ARTICLE_PRESENT, articleId)
       .toPromise();
 
