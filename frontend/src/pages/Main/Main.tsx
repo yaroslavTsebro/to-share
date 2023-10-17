@@ -3,7 +3,7 @@ import { Wrapper } from "../../components/Wrapper/Wrapper";
 import { Container } from "../../components/Container/Container";
 import { Logo } from "../../components/Logo/Logo";
 
-function MainPage() {
+function Main() {
   return (
     <Wrapper>
       <Container>
@@ -13,4 +13,4 @@ function MainPage() {
   );
 }
 
-export default MainPage;
+export default Main;

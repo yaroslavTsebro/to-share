@@ -22,10 +22,6 @@ const EditPost = () => {
           name="title"
           placeholder="Enter your title"
         />
-        {images.length > 0 &&
-          images.map((item, i) => {
-            return <img alt={`preview ${i}`} src={item} key={i} />;
-          })}
         <input
           className={styles.titleImageInput}
           type="file"
